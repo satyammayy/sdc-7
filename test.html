@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="sty.css">
+    <title>Web Application for Shopping Cart - GNITC</title>
+    <script>
+        function toggleSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                if (section.id === sectionId) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            toggleSection('home'); // Show home section by default
+        });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <img src="logo.png" alt="GNITC LOGO" width="130" height="100"/>
+            <h1>Web Application for Shopping Cart</h1>
+        </header>
+        <nav>
+            <a href="javascript:void(0)" onclick="toggleSection('home')">Home</a>
+            <a href="javascript:void(0)" onclick="toggleSection('login')">Login</a>
+            <a href="javascript:void(0)" onclick="toggleSection('registration')">Registration</a>
+            <a href="javascript:void(0)" onclick="toggleSection('cart')">Cart</a>
+        </nav>
+
+        <!-- Home Section -->
+        <section id="home">
+            <main>
+                <h2>Welcome to Web Application for Shopping Cart</h2>
+                <p>Shopping on this website can be both fun and savings. Shop with us in this special discount season and save up to 90% on all your purchases.</p>
+            </main>
+        </section>
+
+        <!-- Login Section -->
+        <section id="login" style="display:none;">
+            <main>
+                <h3>Login Details</h3>
+                <form>
+                    <label for="username">User Name:</label>
+                    <input type="text" id="username" name="username">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password">
+                    <button type="submit">Submit</button>
+                    <button type="reset">Reset</button>
+                </form>
+            </main>
+        </section>
+
+        <!-- Registration Section -->
+        <section id="registration" style="display:none;">
+            <main>
+                <h3>Registration Form</h3>
+                <form>
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="username">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password">
+                    <label for="email">Email ID:</label>
+                    <input type="email" id="email" name="email">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phno">
+                    <label>Gender:</label>
+                    <div class="inline">
+                        <input type="radio" id="male" name="gender" value="male">
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="gender" value="female">
+                        <label for="female">Female</label>
+                    </div>
+                    <label>Languages Known:</label>
+                    <div class="inline">
+                        <input type="checkbox" id="english" name="language" value="English">
+                        <label for="english">English</label>
+                        <input type="checkbox" id="telugu" name="language" value="Telugu">
+                        <label for="telugu">Telugu</label>
+                        <input type="checkbox" id="hindi" name="language" value="Hindi">
+                        <label for="hindi">Hindi</label>
+                        <input type="checkbox" id="tamil" name="language" value="Tamil">
+                        <label for="tamil">Tamil</label>
+                    </div>
+                    <label for="address">Address:</label>
+                    <textarea id="address" name="address"></textarea>
+                    <button type="submit">Submit</button>
+                    <button type="reset">Reset</button>
+                </form>
+            </main>
+        </section>
+        <!-- Cart Section -->
+        <section id="cart" style="display:none;">
+            <main>
+                <h3>Cart</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Book Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Java Programming</td>
+                            <td>Rs. 2300/-</td>
+                            <td>2</td>
+                            <td>Rs. 4600/-</td>
+                        </tr>
+                        <tr>
+                            <td>Web Technologies</td>
+                            <td>Rs. 3000/-</td>
+                            <td>1</td>
+                            <td>Rs. 3000/-</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">Total Amount:</td>
+                            <td>Rs. 7600/-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </main>
+        </section>
+        <footer>Computer Science and Engineering</footer>
+    </div>
+</body>
+</html>

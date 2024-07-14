@@ -1,0 +1,140 @@
+Index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Login Form</title>
+</head>
+<body>
+    <div align="center">
+        <h1>Employee Login Form</h1>
+        <form action="login" method="post">
+            <table style="width: 100%">
+                <tr>
+                    <td>UserName</td>
+                    <td><input type="text" name="username" /></td>
+                </tr>
+                <tr>
+                    <td>Password</td>
+                    <td><input type="password" name="password" /></td>
+                </tr>
+            </table>
+            <input type="submit" value="Submit" />
+        </form>
+    </div>
+</body>
+</html>
+
+Web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+    <servlet>
+        <servlet-name>userServlet</servlet-name>
+        <servlet-class>week7.UserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>userServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>login.html</welcome-file>
+    </welcome-file-list>
+</web-app>
+
+
+
+
+
+
+
+
+
+
+UserServlet.java
+package week7;
+
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.sql.*;
+
+public class UserServlet extends HttpServlet {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/sampledb", "satyam", "testpass123"); // Adjust your username and password
+            
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM users WHERE username = ? AND password = ?");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                String name = rs.getString("name"); // Retrieve the name column
+                out.println("Welcome, " + name + "!");
+            } else {
+                out.println("Invalid username or password.");
+            }
+            con.close();
+        } catch (Exception e) {
+            out.println("Error: " + e.getMessage());
+        } finally {
+            out.close();
+        }
+    }
+}
+
+mysql> CREATE TABLE USERS (name varchar(100), username varchar(100), password varchar(100));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO USERS values ('Satyam Mayengbam','satyammay123@gmail.com','SSatyam123..');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO USERS values ('Nancy Kongbrailatpam','nancy@gmail.com','NNancy123..');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM USERS;
++----------------------+------------------------+--------------+
+| name                 | username               | password     |
++----------------------+------------------------+--------------+
+| Satyam Mayengbam     | satyammay123@gmail.com | SSatyam123.. |
+| Nancy Kongbrailatpam | nancy@gmail.com        | NNancy123..  |
++----------------------+------------------------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> CREATE USER 'satyam'@'localhost' IDENTIFIED BY 'testpass123';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> GRANT ALL PRIVILEGES ON sampledb.* TO 'satyam'@'localhost';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> Flush Privileges;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> describe USERS;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| name     | varchar(100) | YES  |     | NULL    |       |
+| username | varchar(100) | YES  |     | NULL    |       |
+| password | varchar(100) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
